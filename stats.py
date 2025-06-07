@@ -161,7 +161,7 @@ def BIAS_P(
         save = False
 ):
     """
-    Bias for the 2nd percentile.
+    Bias for the P'th percentile.
     
     :param sample: inferences with shape (nº days, img_size, img_size)
     :param ground: ground with shape (nº days, img_size, img_size)
@@ -436,10 +436,5 @@ def save_figures_given_attention(
     # See correlation
     plt.figure(figsize = (7, 7))
     correlation(samples, ground, px_x, px_y, args, save = True)
-    
-if __name__ == "__main__":
-    idx = 100
-    idx_hist(idx, "tf", bins = 50, px_x = 19, px_y = 20)
-    idx_hist(idx, "gc", bins = 50, px_x = 19, px_y = 20)
-    idx_hist(idx, "lp", bins = 50, px_x = 7, px_y = 15)
+
     
