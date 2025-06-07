@@ -3,7 +3,7 @@ Global Climate Models (GCM) has two major problems: coarse spatial resolution, a
 
 This repository consist in 7 python scripts, and 4 folders, containing the model, results, and metrics of VALUE validation framework.
 
-  * **TF.py**: The dataset used, that contains $\approx 10.000$ samples of mean temperatures, and synoptic conditions of Tenerife.
+  * **TF.py**: Generate the  dataset, that contains $\approx 10.000$ samples of mean temperatures, and synoptic conditions of the selected island.
   * **process_data.py**: A utils script, containing usefull functions used along the rest of the code.
   * **diffusion.py**: The diffusion model.
   * **unet.py**: The UNet used to learn the noise of the diffusion.
