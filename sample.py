@@ -360,19 +360,3 @@ def UNeT_View(T = 1000) -> None:
     plt.imshow(tensor_to_pil(x[0], exs))
     plt.axis(False)
     plt.savefig("figures/unet/pred_noise")
-
-if __name__ == "__main__":
-    noises = np.load("./sampled_arrays/noises_itf_idx0.npy")
-    samples = np.load("./sampled_arrays/samples_itf_idx0.npy")    
-
-    for sample in range(samples.shape[0]):
-        samp = samples[sample, :, :]
-        plt.imshow(samp, cmap = "jet")
-        plt.axis(False)
-        plt.savefig(f"./pres/sample{sample}.png", transparent = True)
-    
-    for sample in range(samples.shape[0]):
-        samp = noises[sample, :, :]
-        plt.imshow(samp, cmap = "jet")
-        plt.axis(False)
-        plt.savefig(f"./pres/noise{sample}.png", transparent = True)
