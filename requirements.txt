@@ -2,5 +2,6 @@ numpy
 matplotlib
 tqdm
 netCDF4
+xarray
 torch
 torchvision
