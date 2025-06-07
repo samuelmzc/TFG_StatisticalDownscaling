@@ -36,97 +36,6 @@ class PositionalEmbedding():
         embedding = t[:, None] * embedding[None, :]
         embedding = torch.cat((embedding.sin(), embedding.cos()), dim = -1)
         return embedding
-
-
-class Zpool(nn.Module):
-    """
-    Class to apply a Zpool for the Triplet Attention. Consist of the concatenation of a MaxPool and a AveragePool for the 0th dimension (channel) not including batch.
-    """
-    def __init__(
-            self
-    ):
-        super().__init__()
-
-    def forward(
-            self, 
-            x
-    ):
-        """
-        Compute the Zpool.
-
-        :param x: Input of shape (b, c, h, w)
-        :return: Tensor of shape (b, 2, h, w)
-        """
-        maxpool0d = torch.max(x, 1)[0].unsqueeze(1) # Nota, sobre lo que hacemos el pool es sobre canales, y como tenemos batch size, entonces en vez de la dim 0 es la 1
-        avgpool0d = torch.mean(x, 1).unsqueeze(1)
-        return torch.cat((maxpool0d, avgpool0d), dim = 1) # shape = (2, H, W)
-
-
-class Gate(nn.Module):
-    """
-    Gate of the Triplet Attention. Permutate the input, apply a Zpool, then a 2D convolution, permute again and apply sigmoid.
-
-    :param permutation: Tuple indicating the permutation
-    """
-    def __init__(
-            self, 
-            permutation
-    ):
-        super().__init__()
-        self.perm = permutation
-        self.zpool = Zpool()
-        self.conv = nn.Conv2d(in_channels = 2, out_channels = 1, kernel_size = 5, padding = 2)
-        self.sigmoid = nn.Sigmoid()
-
-    def forward(
-            self, 
-            x
-    ):
-        """
-        Compute the gate.
-
-        :param x: Input tensor
-        :return: Output tensor weighted with attention
-        """
-        x0 = torch.permute(x, self.perm)
-        x = self.zpool(x0)
-        x = self.conv(x)
-        x = self.sigmoid(x)
-        x = x0 * x
-        x = torch.permute(x, self.perm)
-        return x
-    
-
-class TripletAttention(nn.Module):
-    """
-    Triplet Attention used for images, inspired by https://arxiv.org/abs/2010.03045v2.
-    """
-    def __init__(
-            self
-    ):
-        super().__init__()
-        self.gate1 = Gate((0, 3, 2, 1))
-        self.gate2 = Gate((0, 2, 1, 3))
-        self.gate3 = Gate((0, 1, 2, 3))
-        
-
-    def forward(
-            self, 
-            x
-    ):
-        """
-        Compute the Triplet Attention.
-
-        :param x: Input tensor
-        :return: The triplet attention
-        """
-        x_1 = self.gate1(x)
-        x_2 = self.gate2(x)
-        x_3 = self.gate3(x)
-        mean = (1 / 3) * (x_1 + x_2 + x_3)
-        return mean
-
-        return self.to_out(out)
         
 
 class Block(nn.Module):
@@ -284,9 +193,4 @@ class UNet(nn.Module):
         x = self.last_conv(x)
         if self.checkpoints == True: return (x, self.checkpoints_dict)
         return x
-
-if __name__ == "__main__":
-    model = UNet("none", 2048)
-    x = torch.randn(5, 1, 32, 32)
-    print(sum(p.numel() for p in model.parameters() if p.requires_grad))
     
