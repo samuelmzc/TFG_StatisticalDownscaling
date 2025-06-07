@@ -1,0 +1,6 @@
+numpy
+matplotlib
+tqdm
+netCDF4
+torch
+torchvision
