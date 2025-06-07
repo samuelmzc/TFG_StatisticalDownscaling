@@ -394,8 +394,6 @@ def idx_hist(
         print("Index out of range, or correspondent array not sampled.")
 
 
-
-
 def save_figures_given_attention(
         samples,
         ground,
