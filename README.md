@@ -2,7 +2,7 @@
 Global Climate Models (GCM) has two major problems: coarse spatial resolution, and systematic biases. Major breaktrhoughs have been obtained with deep learning models. The aim of this work is to study the applicability of generative AI for stadistical downscaling in Canary Islands, in particular, a Denoising Diffusion Probabilistic Model (DDPM) has been implemented. 
 
 This repository consist in 7 python scripts, and 4 folders, containing the model, results, and metrics of VALUE validation framework.
-
+  * **main.py**: The main script. 
   * **TF.py**: Generate the  dataset, that contains $\approx 10.000$ samples of mean temperatures, and synoptic conditions of the selected island.
   * **process_data.py**: A utils script, containing usefull functions used along the rest of the code.
   * **diffusion.py**: The diffusion model.
